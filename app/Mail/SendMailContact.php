@@ -30,9 +30,9 @@ class SendMailContact extends Mailable
      */
     public function build()
     {
-        return $this->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+        return $this->from($this->contact->email, $this->contact->name)
             ->view('emails.contact')
-            ->attach(storage_path('app/'.$this->contact->attachment))
+            ->attach(storage_path('app/' . $this->contact->attachment))
             ->with([
                 'contact' => $this->contact,
             ]);

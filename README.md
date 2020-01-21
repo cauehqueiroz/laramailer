@@ -56,11 +56,13 @@ If no errors are shown in your terminal, and when the **webserver** and the **da
   
 
 You'll have to configure the mail enviroments variable according to your needs.
+Use the `CONTACT_EMAIL` to define the target of the messages sent by your form.
 
 Hint: You can use MailTrap to just check your functionality.
 
   
 
+    CONTACT_EMAIL=mail-to-receive@from.contact.com
     MAIL_DRIVER=smtp
     MAIL_HOST=smtp.mailtrap.io
     MAIL_PORT=2525
