@@ -34,17 +34,15 @@ Route::post('/enviarEmail', function (App\Contact $contact, \Illuminate\Http\Req
         'attachment' => 'required|file|max:500|mimes:pdf,doc,docx,odt,txt',
     );
     $validator = Validator::make($data, $rules);
-    $data = $validator->getData();
-    $path = $request->attachment->store('attachments');
-    if ($path === null) {
-        $validator->errors()->add('attachment', 'Erro ao salvar o anexo!');
-    }
-    $data['attachment'] = $path;
-
     if ($validator->fails()) {
         $errors = $validator->errors();
         return response()->json(['success' => false, "message" => $errors->all()], 200);
     }
+
+    // Upload attachament
+    $data = $validator->getData();
+    $path = $request->attachment->store('attachments');
+    $data['attachment'] = $path;
 
     $contact->fill($data);
     $contact->save();
