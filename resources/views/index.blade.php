@@ -73,8 +73,8 @@
             success: function (data) {
               $(botao).removeAttr("disabled");
               if(data.sent === true){
-                  alert("E-mail enviado com sucesso!");
-                  //window.location.reload(true);
+                  alert("E-mail enviado com sucesso! =D");
+                  window.location.reload(true);
               } else {
                 // alert("Ocorreu um erro ao enviar seu contato. =(");
                 $('#error-msg').removeClass('d-none').html(data.message.join('<br>'));

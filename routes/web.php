@@ -15,9 +15,14 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::post('/enviarEmail', function (App\Contact $contact) {
+Route::get('/mail', function () {
+    $a = App\Contact::find(1);
+    return new App\Mail\SendMailContact($a);
+});
+
+Route::post('/enviarEmail', function (App\Contact $contact, \Illuminate\Http\Request  $request) {
     $client_ip = Request::ip();
-    $data = Request::all();
+    $data = $request->all();
     $data['client_ip'] = $client_ip;
     // Salvar
     
@@ -29,15 +34,22 @@ Route::post('/enviarEmail', function (App\Contact $contact) {
         'attachment' => 'required|file|max:500|mimes:pdf,doc,docx,odt,txt',
     );
     $validator = Validator::make($data, $rules);
+    $data = $validator->getData();
+    $path = $request->attachment->store('attachments');
+    if ($path === null) {
+        $validator->errors()->add('attachment', 'Erro ao salvar o anexo!');
+    }
+    $data['attachment'] = $path;
+
     if ($validator->fails()) {
         $errors = $validator->errors();
         return response()->json(['success' => false, "message" => $errors->all()], 200);
     }
-    dd($data);
 
     $contact->fill($data);
-    dd($contact);
     $contact->save();
+    $to = env('CONTACT_EMAIL');
+    Illuminate\Support\Facades\Mail::to($to)->send(new App\Mail\SendMailContact($contact));
 
     $return = [
         'sent' => true,
