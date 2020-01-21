@@ -47,7 +47,7 @@ Note: If you are going to run this on the docker container please change the dat
 
   
 
-If no errors are shown in your terminal, and when the **webserver** and the **database** are running open a page at `htpp:\\localhost:8080`.
+If no errors are shown in your terminal, and when the **webserver** and the **database** are running open a page at `http:\\localhost:8080`.
 
   
 
