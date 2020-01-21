@@ -1,0 +1,34 @@
+version: '3'
+services:
+  webserver:
+    container_name: webserver-laramailer
+    build: docker
+    volumes:
+      - ./:/app
+    links:
+      - database
+    ports:
+      - 8080:80
+  database:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "321321"
+      MYSQL_DATABASE: "laramailer"
+    volumes:
+      - ./docker/database:/var/lib/mysql
+    
+  # database:
+  #   container_name: database
+  #   restart: always
+  #   image: postgres:alpine
+  #   ports:
+  #     - 5432:5432
+  #   environment:
+  #     POSTGRES_DB: homestead
+  #     POSTGRES_USER: homestead
+  #     POSTGRES_PASSWORD: secret
+  #   volumes:
+  #     - ./database:/var/lib/postgresql
